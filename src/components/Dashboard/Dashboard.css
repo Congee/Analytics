@@ -1,0 +1,18 @@
+.Dashboard {
+  display: flex;
+  flex-direction: row;
+}
+
+.navigation {
+  backgroud-color: cyan;
+  border-style: solid;
+  border-color: coral;
+  width: 20%;
+}
+
+.content {
+  backgroud:-color green;
+  border-style: solid;
+  border-color: blue;
+  width: 80%;
+}

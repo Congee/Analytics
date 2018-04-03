@@ -1,0 +1,91 @@
+import * as highcharts from 'highcharts';
+
+import * as React from 'react';
+
+//const win: any = typeof global === 'undefined' ? window : global;
+
+  class Chart extends React.Component<any, any> {
+      Highcharts;
+      displayName;
+      chartRef;
+      chart;
+        constructor(props) {
+            super(props)
+            this.Highcharts = highcharts;
+            this.displayName = 'Highcharts' + 'Chart';
+        }
+
+        setChartRef(chartRef) {
+            this.chartRef = chartRef;
+        }
+
+        renderChart(config) {
+            if (!config) {
+                throw new Error('Config must be specified for the ' + this.displayName + ' component');
+            }
+            const chartConfig = config.chart;
+            this.chart = new this.Highcharts['Chart']({
+                ...config,
+                chart: {
+                    ...chartConfig,
+                    renderTo: this.chartRef
+                }
+            });
+
+            requestAnimationFrame(() => {
+                //this.chart && this.chart.options && this.chart.reflow();
+                this.chart.reflow();
+            });
+        }
+
+        shouldComponentUpdate(nextProps) {
+            if (nextProps.neverReflow || (nextProps.isPureConfig && this.props.config === nextProps.config)) {
+                return true;
+            }
+            this.renderChart(nextProps.config);
+            return false;
+        }
+
+        getChart() {
+            if (!this.chart) {
+                throw new Error('getChart() should not be called before the component is mounted');
+            }
+            return this.chart;
+        }
+
+        componentDidMount() {
+            this.renderChart(this.props.config);
+        }
+
+        componentWillUnmount() {
+            this.chart.destroy();
+        }
+
+        render() {
+            return <div ref={this.setChartRef.bind(this)}  />;
+        }
+    }
+
+    //if (isProdMode) {
+        //let PropTypes = require('prop-types')
+
+        //Chart.propTypes = {
+            //config: PropTypes.object,
+            //isPureConfig: PropTypes.bool,
+            //neverReflow: PropTypes.bool,
+            //callback: PropTypes.func,
+            //domProps: PropTypes.object
+        //}
+
+    (Chart as any).defaultProps = {
+        callback: () => {
+        },
+        domProps: {}
+    }
+
+    //let result = Chart;
+    //result.Highcharts = Highcharts;
+    //result.withHighcharts = Highcharts => module.exports('Chart', Highcharts);
+
+//export default chartsFactory;
+export default Chart;

@@ -1,0 +1,18 @@
+.rect-card {
+  display: flex;
+  background-color: #389eff;
+  width: 230px;
+  height: calc(100vh / 6);
+  padding: 15px 5px;
+  align-items: center;
+}
+
+.rect-card > .text-area {
+  display: flex;
+  flex-direction: column;
+  vertical-align: center;
+}
+
+.rect-card span {
+  color: #fff;
+}
